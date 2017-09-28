@@ -99,34 +99,38 @@ def size(N):
 
 def high_end(limit):
     high = 0.001
-    while size(high) <= limit:
+    while size(high) < limit:
         high = high * 2
     return high
 
 def bisection_search_lgN(limit, high):
     low = 0
+    epsilon = 0.001
 
     while low <= high:
-        mid = int(low + (high - low) / 2)
-        if (size(mid) <= limit) and (size(mid + 1) >= limit):
-            return mid
+        mid = low + (high - low) / 2
+        if abs(size(mid) - limit) <= (epsilon + 0.5) :
+            return int(mid)
         if size(mid) > limit:
-            high = mid - 1
+            high = mid - epsilon
         else:
-            low = mid + 1
-""" WIP
-def bisection_search_lgN_recursive(limit, high):
-    mid = high / 2
+            low = mid + epsilon
 
-    if (size(mid) <= limit) and (size(mid + 1) >= limit):
-        return mid
-    if size(mid) > limit:
-        return bisection_search_lgN(limit, mid)
-    else:
-        return bisection_search_lgN(limit, high + mid)
-"""
 limit = 2 ** 40
 high = high_end(limit)
+#print size(32418573402) - limit
+#print bisection_search_lgN(limit, high)
 
-print bisection_search_lgN(limit, high)
-#print bisection_search_lgN_recursive(limit, high)
+def bisection_search_lgN_recursive(limit, low, high):
+    epsilon = 0.001
+    mid = (high + low) / 2
+
+    if abs(size(mid) - limit) <= (epsilon + 0.5):
+        return mid
+    if size(mid) > limit:
+        return bisection_search_lgN_recursive(limit, low, (mid - epsilon))
+    else:
+        return bisection_search_lgN_recursive(limit, (mid + epsilon), high)
+
+
+print bisection_search_lgN_recursive(limit, 0, high)
