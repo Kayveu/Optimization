@@ -1,4 +1,4 @@
-from math import sqrt
+import math
 
 
 """Linear Search"""
@@ -8,6 +8,12 @@ def linearSearch(F, target):
             return i
     return false
 
+def linearSearchRecursive(F, target):
+    if F[0] == target:
+        return F[0]
+    else:
+        return linearSearchRecursive(F[1:], target)
+
 """Exhaustive Enumeration"""
 def linearSearch_sqrt(N):
     epsilon = 0.001    #tolerance level
@@ -16,13 +22,14 @@ def linearSearch_sqrt(N):
         x += epsilon
     return x
 
+
 """
     Note: both linearSearch_sqrt and linearSearch iterate linearly except where linearSearch
         iterates discretly through each item in a list, linearSearch_sqrt iterates sort of continuously (though still discretly)
         by increasing its test parameter though each iteration
 """
 #print linearSearch_sqrt(20)
-#print sqrt(20)
+#print math.sqrt(20)
 
 def binarySearch(A, target):
     """
@@ -47,8 +54,8 @@ def binarySearch(A, target):
             low = mid + 1
     return False
 
-F = range(32)
-target = 31
+#F = range(32)
+#target = 15
 #print "Looking for [{}] in array {}".format(target, F)
 #print binarySearch(F, target)
 
@@ -65,6 +72,7 @@ def binarySearchRecursive(F, target):
 
 #print binarySearchRecursive(F, target)
 
+"""bisection kth root"""
 def bisection_search_kth_root(N, k):
     epsilon = 0.001
     low = 0
@@ -84,3 +92,41 @@ def bisection_search_kth_root(N, k):
     return False
 
 #print bisection_search_kth_root(81, 2)
+
+"""search lgN"""
+def size(N):
+    return N * math.log(N, 2) - N + 1
+
+def high_end(limit):
+    high = 0.001
+    while size(high) <= limit:
+        high = high * 2
+    return high
+
+def bisection_search_lgN(limit, high):
+    low = 0
+
+    while low <= high:
+        mid = int(low + (high - low) / 2)
+        if (size(mid) <= limit) and (size(mid + 1) >= limit):
+            return mid
+        if size(mid) > limit:
+            high = mid - 1
+        else:
+            low = mid + 1
+""" WIP
+def bisection_search_lgN_recursive(limit, high):
+    mid = high / 2
+
+    if (size(mid) <= limit) and (size(mid + 1) >= limit):
+        return mid
+    if size(mid) > limit:
+        return bisection_search_lgN(limit, mid)
+    else:
+        return bisection_search_lgN(limit, high + mid)
+"""
+limit = 2 ** 40
+high = high_end(limit)
+
+print bisection_search_lgN(limit, high)
+#print bisection_search_lgN_recursive(limit, high)
