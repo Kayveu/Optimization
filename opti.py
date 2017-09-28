@@ -1,5 +1,6 @@
 from math import sqrt
 
+
 """Linear Search"""
 def linearSearch(F, target):
     for i in range(len(F)):
@@ -9,10 +10,10 @@ def linearSearch(F, target):
 
 """Exhaustive Enumeration"""
 def linearSearch_sqrt(N):
-    episilon = 0.001    #tolerance level
+    epsilon = 0.001    #tolerance level
     x = float(0)
-    while (x ** 2) < N - episilon:
-        x += episilon
+    while (x ** 2) < N - epsilon:
+        x += epsilon
     return x
 
 """
@@ -47,27 +48,39 @@ def binarySearch(A, target):
     return False
 
 F = range(32)
-target = 5
+target = 31
 #print "Looking for [{}] in array {}".format(target, F)
 #print binarySearch(F, target)
 
-def binarySearchRecursive(F, target, left, right):
+def binarySearchRecursive(F, target):
     "A recursive version of binary search"
-    mid = right / 2
-
+    mid = len(F) // 2
+    print 'Comparing [{}] to {}'.format(F[mid], target)
     if F[mid] == target:
-        print "{} vs {}".format(mid, target)
-        return mid
+        return F[mid]
     if mid > target:
-        scale = range(mid)
-        return binarySearchRecursive(F, target, scale[0], mid)
+        return binarySearchRecursive(F[:mid], target)
     else:
-        scale = range(mid, right + 2)
-        return binarySearchRecursive(F, target, mid, scale[-1])
+        return binarySearchRecursive(F[mid:], target)
 
-left = 0
-right = len(F) - 1
+#print binarySearchRecursive(F, target)
 
-#print binarySearchRecursive(F, target, left, right)
+def bisection_search_kth_root(N, k):
+    epsilon = 0.001
+    low = 0
+    high = N + 1
+    count = 0
 
-def bisectionSearch():
+    while low <= high:
+        x = float(low) + (high - low) / 2
+        count += 1
+        if abs((x ** k) - N) <= epsilon:
+            print count
+            return x
+        if ((x ** k) - N) > epsilon:
+            high = x
+        else: #((x ** k) - N) < epsilon
+            low = x
+    return False
+
+#print bisection_search_kth_root(81, 2)
