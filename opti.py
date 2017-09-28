@@ -53,8 +53,8 @@ target = 31
 #print binarySearch(F, target)
 
 def binarySearchRecursive(F, target):
-    "A recursive version of binary search"
-    mid = len(F) // 2
+    """A recursive version of binary search"""
+    mid = len(F) / 2
     print 'Comparing [{}] to {}'.format(F[mid], target)
     if F[mid] == target:
         return F[mid]
