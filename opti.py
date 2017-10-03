@@ -14,6 +14,7 @@ def linearSearchRecursive(F, target):
     else:
         return linearSearchRecursive(F[1:], target)
 
+
 """Exhaustive Enumeration"""
 def linearSearch_sqrt(N):
     epsilon = 0.001    #tolerance level
@@ -21,7 +22,6 @@ def linearSearch_sqrt(N):
     while (x ** 2) < N - epsilon:
         x += epsilon
     return x
-
 
 """
     Note: both linearSearch_sqrt and linearSearch iterate linearly except where linearSearch
@@ -31,6 +31,8 @@ def linearSearch_sqrt(N):
 #print linearSearch_sqrt(20)
 #print math.sqrt(20)
 
+
+"""BinarySearch"""
 def binarySearch(A, target):
     """
     In a range of numbers, divide it in half
@@ -72,28 +74,38 @@ def binarySearchRecursive(F, target):
 
 #print binarySearchRecursive(F, target)
 
-"""bisection kth root"""
+
+"""Newton-Raphson"""
+def newton_sqrt(k):
+    epsilon = 0.001
+    y = k / 2
+    while abs(y * y - k) >= epsilon:
+        y = y - (((y ** 2) - k) / (2 * y))
+    return y
+
+
+"""HOMEWORK"""
+print 'Homework Questions'
+"""Bisection kth root"""
 def bisection_search_kth_root(N, k):
     epsilon = 0.001
     low = 0
     high = N + 1
-    count = 0
 
     while low <= high:
         x = float(low) + (high - low) / 2
-        count += 1
-        if abs((x ** k) - N) <= epsilon:
-            print count
-            return x
+        if abs(int((x ** k)) - N) <= epsilon:
+            return int(x)
         if ((x ** k) - N) > epsilon:
-            high = x
+            high = x - epsilon
         else: #((x ** k) - N) < epsilon
-            low = x
+            low = x + epsilon
     return False
 
-#print bisection_search_kth_root(81, 2)
+print '5) Bisection kth root: ' + str(bisection_search_kth_root(400, 2))
 
-"""search lgN"""
+
+"""Bisection lgN"""
 def size(N):
     return N * math.log(N, 2) - N + 1
 
@@ -109,28 +121,26 @@ def bisection_search_lgN(limit, high):
 
     while low <= high:
         mid = low + (high - low) / 2
-        if abs(size(mid) - limit) <= (epsilon + 0.5) :
+        if abs(int(size(mid) - limit)) <= epsilon:
             return int(mid)
         if size(mid) > limit:
             high = mid - epsilon
         else:
             low = mid + epsilon
 
-limit = 2 ** 40
+limit = 2 ** 43
 high = high_end(limit)
-#print size(32418573402) - limit
-#print bisection_search_lgN(limit, high)
+print '7) Bisection search lgN: ' + str(bisection_search_lgN(limit, high))
 
 def bisection_search_lgN_recursive(limit, low, high):
     epsilon = 0.001
     mid = (high + low) / 2
 
-    if abs(size(mid) - limit) <= (epsilon + 0.5):
-        return mid
+    if abs(int(size(mid) - limit)) <= epsilon:
+        return int(mid)
     if size(mid) > limit:
         return bisection_search_lgN_recursive(limit, low, (mid - epsilon))
     else:
         return bisection_search_lgN_recursive(limit, (mid + epsilon), high)
 
-
-print bisection_search_lgN_recursive(limit, 0, high)
+#print 'Bisection search lgN Recursive: ' + str(bisection_search_lgN_recursive(limit, 0, high))
